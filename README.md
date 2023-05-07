@@ -1,5 +1,8 @@
 # Embedded-Air-Quality-Measurement-System
 
+The PI-Trokli development system was used to implement an embedded system for indicating the Air Quality Index (AQI) based on several environmental measurements provided in Thingspeak channel.
+Implemented several python scripts to read values from the cloud channel, to calculate AQI values, gathering local values, saving the calculated values in a new cloud channel, usage of LED Matrix and seven segment display were also implemented based on the value drafted per sequence.
+
 TASKS AND SPECIFICATIONS:-
 1) Reading Sensor Cloud Data from Thingspeak (Task1.py)
   Accessing the thingspeak channel
