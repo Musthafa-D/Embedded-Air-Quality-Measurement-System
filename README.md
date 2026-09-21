@@ -1,42 +1,43 @@
-# Embedded Air Quality Measurement System
+# Embedded Air Quality Measurement and Visualisation
 
-## Overview
+A Python project combining remote environmental measurements with local Raspberry Pi temperature and humidity sensing. It reads ThingSpeak channel data, calculates summaries and air-quality indicators, and explores local display and cloud-update workflows.
 
-This project implements a real-time air quality measurement system using embedded sensors and a microcontroller platform.  
-Data is collected from air quality sensors, processed by the embedded system, and visualized/logged for analysis.
+The implementation uses two data sources: particulate measurements retrieved from a remote channel, and temperature/humidity readings acquired locally with a DHT11 sensor.
 
-Such systems are commonly used for Environmental Monitoring, Smart Cities, and Indoor/Outdoor Air Quality Analytics.
+## Implementation
 
----
+- Retrieve environmental records from a ThingSpeak JSON feed.
+- Extract particulate measurements, calculate sample means and plot PM1.0, PM2.5 and PM10 series.
+- Read DHT11 temperature and humidity through Raspberry Pi GPIO.
+- Maintain a rolling measurement buffer.
+- Calculate particulate AQI values and publish selected values to ThingSpeak.
+- Present measurements through LED matrix and seven-segment display routines.
 
-## Features / Goals
+## Files
 
-- Interfaces with air quality sensor modules (e.g., MQ series / dust sensors)
-- Real-time data acquisition by microcontroller
-- Serial/USB data transmission for logging
-- Visualization support (terminal, plots, or external display)
-- Modular code for sensor addition and calibration
+| File | Role |
+|---|---|
+| `Task1.py` | Remote feed retrieval, particulate summaries and plots |
+| `Task2.py` | DHT11 acquisition and rolling temperature/humidity analysis |
+| `Task3.py` | AQI calculations and ThingSpeak updates |
+| `Task4.py` | GPIO and LED display integration |
+| `Task4_2.py` | Supporting measurement/display calculations |
+| `main.py` | Original task orchestration script |
 
----
+## Hardware and dependencies
 
-## Repository Structure
+The hardware paths use a Raspberry Pi, DHT11 sensor, GPIO connections, a MAX7219-compatible LED matrix and an Adafruit-compatible seven-segment display. They are not generic desktop-only programs.
 
-- **src/** – Source code for the microcontroller (firmware)
-- **hardware/** – Diagrams, connection maps, schematics (if present)
-- **data/** – Sample air quality readings (CSV or logs)
-- **plots/** – Example visualization outputs
-- **README.md** – This documentation
+Imports include `RPi.GPIO`, `dht11`, `requests`, `thingspeak`, Matplotlib, `luma.led_matrix` and `Adafruit_LED_Backpack`. Configure GPIO, SPI and display interfaces for the connected hardware. Wiring and library versions must match the setup; no wiring diagram is included in this archive.
 
----
+## Using the source
 
-## Hardware Requirements (Typical)
+Read the task files in order to understand the data flow. Run the remote-data analysis separately when only feed inspection and plotting are needed. Sensor and publishing routines require the corresponding hardware and an authorised ThingSpeak channel.
 
-| Component | Description |
-| --------- | ----------- |
-| Microcontroller | Arduino / ESP32 / STM32 / similar |
-| Air Quality Sensor | MQ135, PM2.5/PM10 dust sensor, etc. |
-| Breadboard & wires | For prototyping |
-| Power module | For stable supply |
-| USB cable | For serial data output |
+The scripts share variables through imports, and acquisition routines contain continuous loops. They preserve the original hardware experiments rather than a scheduler-based application. `main.py` is not a documented one-command setup procedure.
 
----
+Configure your own channel credentials privately before using the publishing routine. Do not reuse credentials found in public source; replace any previously published key through the service account.
+
+## Measurement scope
+
+Particulate values originate from the selected remote feed; this repository does not establish local particulate-sensor calibration. AQI interpretation depends on units, averaging periods and the applicable formula. The project is an environmental monitoring demonstration, not a certified health or regulatory measurement instrument.
